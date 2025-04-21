@@ -1,48 +1,40 @@
-🔍 AG News Classification using Parameter-Efficient Fine-Tuning (LoRA)
-This project showcases the use of Low-Rank Adaptation (LoRA) for fine-tuning a pre-trained transformer (RoBERTa) on the AG News dataset. The goal is to achieve high classification accuracy with a model that is both efficient and lightweight — keeping trainable parameters under 1 million.
+📰 AG News Classification using LoRA (Low-Rank Adaptation)
+This project presents a parameter-efficient fine-tuning pipeline using LoRA on the AG News text classification dataset. The goal is to achieve high accuracy while keeping the trainable parameters under 1 million, making the model efficient for deployment and leaderboard evaluation.
 
 📁 Project Structure
-LORA_Lords_Final.ipynb – Main training notebook with hyperparameter tuning, evaluation, and inference.
+LORA_Lords_Final.ipynb — Main notebook with preprocessing, training, evaluation, and prediction.
 
-test_unlabelled.pkl – Custom test dataset provided via Kaggle competition.
+test_unlabelled.pkl — Kaggle-provided test dataset (no labels).
 
-inference_output.csv – Predictions generated for the Kaggle leaderboard submission.
+inference_output.csv — Final submission predictions for the Kaggle leaderboard.
 
 📌 Highlights
-Model Base: roberta-base from Hugging Face Transformers.
+Base Model: roberta-base from Hugging Face.
 
-Fine-Tuning Strategy: LoRA (Low-Rank Adaptation) for SEQ_CLS tasks.
+LoRA Configuration: Applied to query, value layers for SEQ_CLS task.
 
-Trainable Parameters: ~0.99M (under 1M) using LoRA with selective layer updates.
+Total Trainable Parameters: ~0.99M.
 
-Evaluation Metric: Accuracy, Precision, Recall, F1.
-
-Final Accuracy:
+Performance:
 
 Validation Accuracy: ~93%
 
-Kaggle Private Leaderboard Accuracy: ~84.85%
+Test Accuracy (Kaggle Leaderboard): ~84.85%
 
-🧠 Techniques Used
-Low-Rank Adaptation (LoRA) for efficient fine-tuning
+Tools: Optuna, HuggingFace Trainer, PyTorch, PEFT (LoRA), Transformers, Evaluate.
 
-Quantization Ready (optional via BitsAndBytesConfig)
+🧠 Key Techniques
+Low-Rank Adaptation (LoRA) for lightweight tuning.
 
-Optuna-based Hyperparameter Search
+Mixed Precision Training (FP16) for faster and memory-efficient training.
 
-Learning rate, batch size, gradient accumulation steps, weight decay
+Hyperparameter Optimization (Optuna) with smart search space design.
 
-Training Strategy
+Metrics Tracked: Accuracy, Precision, Recall, F1.
 
-Evaluation during training (every 400 steps)
+Visualization: All relevant training curves are plotted.
 
-Early stopping callback
-
-Mixed-precision training (FP16)
-
-Final inference on Kaggle-provided test set
-
-⚙️ Best Hyperparameters (via Optuna)
+🔧 Best Hyperparameters (via Optuna)
 yaml
 Copy
 Edit
@@ -57,40 +49,42 @@ target_modules: ['query', 'value']
 📈 Results
 
 Metric	Value
-Eval Acc	~93%
-Test Acc (Kaggle)	~84.85%
-Params (Trainable)	~0.99M
+Validation Accuracy	93.0%
+Kaggle Test Accuracy	84.85%
+Trainable Params	~999,172
 Precision	✅ Logged
 Recall	✅ Logged
 F1 Score	✅ Logged
+🧪 All metrics were visualized across steps and validated using both training and held-out test data.
+
 📊 Visualizations
-The notebook includes:
+✅ Training vs Evaluation Loss
 
-Training vs Evaluation Loss
+✅ Train Accuracy (Final) vs Evaluation Accuracy
 
-Training vs Evaluation Accuracy
+✅ Precision, Recall, F1 vs Step
 
-Validation Precision / Recall / F1 vs Step
+All plots are generated using Matplotlib after training using the trainer’s log_history.
 
-Final Test Accuracy printed post-training
-
-🚀 Inference
+🚀 Inference Demo
 python
 Copy
 Edit
-classify(final_model, tokenizer, "Example News Headline")
-Predictions are written to inference_output.csv.
+classify(model, tokenizer, "Wall St. Bears Claw Back Into the Black")
+Predictions are saved to:
 
+bash
+Copy
+Edit
+inference_output_trial9.csv
 📚 References
-[1] Hu, E., Shen, Y., Wallis, P., Allen-Zhu, Z., Li, Y., Wang, L., & Chen, W. (2021). LoRA: Low-Rank Adaptation of Large Language Models. arXiv:2106.09685.
+[1] Hu, E., et al. LoRA: Low-Rank Adaptation of Large Language Models, arXiv:2106.09685. [Paper]
 
-[2] He, K., Zhang, X., Ren, S., & Sun, J. (2016). Deep Residual Learning for Image Recognition. CVPR.
+[2] He, K., et al. Deep Residual Learning for Image Recognition, CVPR 2016.
 
-[3] AG News Dataset: Hugging Face Datasets
+[3] AG News Dataset: HuggingFace Datasets
 
-👨‍💻 Team
+👨‍💻 Team Members
 Sarang P. Kadakia (Net ID: sk11634)
 
 Vishwajeet Kulkarni (Net ID: vk2630)
-
-Rujuta Joshi (Net ID: rj2719)
